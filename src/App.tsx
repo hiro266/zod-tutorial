@@ -1,35 +1,80 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "./App.css";
+import React, { useState } from "react";
+import { FormData, FormSchema } from "./schema";
+import toast, { Toaster } from "react-hot-toast";
+// interface FormData {
+//   name: string;
+//   email: string;
+//   message: string;
+// }
 
-function App() {
-  const [count, setCount] = useState(0)
+const App: React.FC = () => {
+  const [formData, setFormData] = useState<FormSchema>({
+    name: "",
+    email: "",
+    message: "",
+  });
+
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setFormData({ ...formData, [event.target.name]: event.target.value });
+  };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    try {
+      // Zod によるバリデーションを実施
+      const result = FormData.parse(formData);
+      console.debug(result);
+      toast.success("送信しました。");
+    } catch (error) {
+      // エラー処理（例：ユーザーへのフィードバック）
+      console.error("Validation Error:", error);
+      toast.error("入力内容に誤りがあります。");
+      throw new Error();
+    }
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <div className="App">
+      <h2>お問い合わせフォーム</h2>
+      <Toaster />
 
-export default App
+      <form onSubmit={handleSubmit}>
+        <label>
+          Name:
+          <input
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+          />
+        </label>
+
+        <label>
+          Email:
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+          />
+        </label>
+
+        <label>
+          Message:
+          <textarea
+            name="message"
+            value={formData.message}
+            onChange={handleChange}
+          />
+        </label>
+
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+  );
+};
+
+export default App;
