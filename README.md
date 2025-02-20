@@ -2,6 +2,10 @@
 
 `npm run dev`
 
+### 参考ファイル
+
+[既存の Vite + React プロジェクトに TanStack Router をあとから導入する](https://zenn.dev/huyu_kotori/articles/2024-12-12-1-tanstack-router)
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.

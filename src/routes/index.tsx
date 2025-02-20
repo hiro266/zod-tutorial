@@ -1,7 +1,8 @@
-import "./App.css";
+import "../App.css";
 import React, { useState } from "react";
-import { FormData, FormSchema } from "./schema";
 import toast, { Toaster } from "react-hot-toast";
+import { FormSchema, FormData } from "../schema";
+import { createFileRoute } from "@tanstack/react-router";
 
 const App: React.FC = () => {
   const [formData, setFormData] = useState<FormSchema>({
@@ -72,4 +73,6 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+export const Route = createFileRoute("/")({
+  component: App,
+});
