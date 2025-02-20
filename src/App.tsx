@@ -2,11 +2,6 @@ import "./App.css";
 import React, { useState } from "react";
 import { FormData, FormSchema } from "./schema";
 import toast, { Toaster } from "react-hot-toast";
-// interface FormData {
-//   name: string;
-//   email: string;
-//   message: string;
-// }
 
 const App: React.FC = () => {
   const [formData, setFormData] = useState<FormSchema>({
