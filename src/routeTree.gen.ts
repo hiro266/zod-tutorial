@@ -11,10 +11,17 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as ContactFormImport } from './routes/contact-form'
 import { Route as IndexImport } from './routes/index'
 import { Route as ItemsItemIdImport } from './routes/items/$itemId'
 
 // Create/Update Routes
+
+const ContactFormRoute = ContactFormImport.update({
+  id: '/contact-form',
+  path: '/contact-form',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const IndexRoute = IndexImport.update({
   id: '/',
@@ -39,6 +46,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
+    '/contact-form': {
+      id: '/contact-form'
+      path: '/contact-form'
+      fullPath: '/contact-form'
+      preLoaderRoute: typeof ContactFormImport
+      parentRoute: typeof rootRoute
+    }
     '/items/$itemId': {
       id: '/items/$itemId'
       path: '/items/$itemId'
@@ -53,36 +67,41 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/contact-form': typeof ContactFormRoute
   '/items/$itemId': typeof ItemsItemIdRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/contact-form': typeof ContactFormRoute
   '/items/$itemId': typeof ItemsItemIdRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
+  '/contact-form': typeof ContactFormRoute
   '/items/$itemId': typeof ItemsItemIdRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/items/$itemId'
+  fullPaths: '/' | '/contact-form' | '/items/$itemId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/items/$itemId'
-  id: '__root__' | '/' | '/items/$itemId'
+  to: '/' | '/contact-form' | '/items/$itemId'
+  id: '__root__' | '/' | '/contact-form' | '/items/$itemId'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ContactFormRoute: typeof ContactFormRoute
   ItemsItemIdRoute: typeof ItemsItemIdRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ContactFormRoute: ContactFormRoute,
   ItemsItemIdRoute: ItemsItemIdRoute,
 }
 
@@ -97,11 +116,15 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/contact-form",
         "/items/$itemId"
       ]
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/contact-form": {
+      "filePath": "contact-form.tsx"
     },
     "/items/$itemId": {
       "filePath": "items/$itemId.tsx"
